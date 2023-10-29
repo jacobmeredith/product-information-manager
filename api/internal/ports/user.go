@@ -1,11 +1,15 @@
 package ports
 
-import "github.com/jacobmeredith/product-information-manager/api/internal/core/domain/user"
+import (
+	"context"
+
+	"github.com/jacobmeredith/product-information-manager/api/internal/core/domain/user"
+)
 
 type UserRepo interface {
-	Add() (user.User, error)
-	Get() (user.User, error)
-	Update() (user.User, error)
-	Delete() (user.User, error)
-	GetAll() ([]user.User, error)
+	Add(ctx context.Context, u user.User) error
+	// Get() error
+	// Update() error
+	// Delete() error
+	// GetAll() error
 }

@@ -29,7 +29,10 @@ func (s *Service) CreateUser(ctx context.Context, req CreateUserRequest) (*Creat
 
 	user := user.NewUser(email, password)
 
-	// Save to database
+	err = s.ur.Add(ctx, user)
+	if err != nil {
+		return nil, errors.Join(err, errors.New("failed to save user"))
+	}
 
 	return &CreateUserResponse{ID: user.ID.String()}, nil
 }

@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS user(
+  id text PRIMARY KEY NOT NULL,
+  email TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL
+);
