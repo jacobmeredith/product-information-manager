@@ -33,14 +33,14 @@ func (s *Service) CreateUser(ctx context.Context, req CreateUserRequest) (*Creat
 	}
 
 	if errs != nil {
-		return nil, fmt.Errorf("%w: %w", common.ErrBadRequest, errs)
+		return nil, fmt.Errorf("%w - %w", common.ErrBadRequest, errs)
 	}
 
 	user := user.NewUser(email, password)
 
 	err = s.ur.Add(ctx, user)
 	if err != nil {
-		return nil, fmt.Errorf("%w: %w", common.ErrInternal, err)
+		return nil, fmt.Errorf("%w - %w", common.ErrInternal, err)
 	}
 
 	return &CreateUserResponse{ID: user.ID.String()}, nil
