@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/jacobmeredith/product-information-manager/api/internal/common"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/domain/user"
-	"github.com/jacobmeredith/product-information-manager/api/internal/core/services"
 	"github.com/jacobmeredith/product-information-manager/api/pkg/errsx"
 )
 
@@ -33,14 +33,14 @@ func (s *Service) CreateUser(ctx context.Context, req CreateUserRequest) (*Creat
 	}
 
 	if errs != nil {
-		return nil, fmt.Errorf("%w: %w", services.ErrBadRequest, errs)
+		return nil, fmt.Errorf("%w: %w", common.ErrBadRequest, errs)
 	}
 
 	user := user.NewUser(email, password)
 
 	err = s.ur.Add(ctx, user)
 	if err != nil {
-		return nil, fmt.Errorf("%w: %w", services.ErrInternal, err)
+		return nil, fmt.Errorf("%w: %w", common.ErrInternal, err)
 	}
 
 	return &CreateUserResponse{ID: user.ID.String()}, nil

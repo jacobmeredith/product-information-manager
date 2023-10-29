@@ -6,7 +6,7 @@ import (
 
 var (
 	ErrEmptyPassword = errors.New("empty email")
-	ErrShortPassword = errors.New("short password")
+	ErrShortPassword = errors.New("password must be more than 6 characters")
 )
 
 type Password string
