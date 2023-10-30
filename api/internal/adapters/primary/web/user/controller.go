@@ -14,7 +14,6 @@ func NewUserController(r fiber.Router, userService user.UserService) *UserContro
 		userService: userService,
 	}
 
-	r.Get("", uc.GetAllUsers)
 	r.Post("", uc.CreateUser)
 	r.Get("/:id", uc.GetUser)
 
@@ -37,10 +36,6 @@ func (c *UserController) CreateUser(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.JSON(userResponse)
-}
-
-func (c *UserController) GetAllUsers(ctx *fiber.Ctx) error {
-	return ctx.SendString("GetAllUsers")
 }
 
 func (c *UserController) GetUser(ctx *fiber.Ctx) error {
