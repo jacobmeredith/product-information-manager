@@ -35,3 +35,14 @@ func (ur *UserRepo) Add(ctx context.Context, u user.User) error {
 
 	return ErrUnknown
 }
+
+func (ur *UserRepo) Get(ctx context.Context, id string) (*user.User, error) {
+	user := new(user.User)
+	row := ur.db.QueryRowContext(ctx, "SELECT id, email, password FROM user WHERE id=?", id)
+	err := row.Scan(&user.ID, &user.Email, &user.Password)
+	if err == nil {
+		return user, nil
+	}
+
+	return nil, ErrUnknown
+}

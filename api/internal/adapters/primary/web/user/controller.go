@@ -44,5 +44,10 @@ func (c *UserController) GetAllUsers(ctx *fiber.Ctx) error {
 }
 
 func (c *UserController) GetUser(ctx *fiber.Ctx) error {
-	return ctx.SendString("GetUser")
+	user, err := c.userService.GetUser(ctx.Context(), ctx.Params("id"))
+	if err != nil {
+		return err
+	}
+
+	return ctx.JSON(user)
 }
