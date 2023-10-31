@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -50,7 +49,7 @@ func (s *Service) Login(ctx context.Context, req LoginRequest) (string, error) {
 	}
 
 	if user == nil {
-		return "", errors.New("invalid credentials")
+		return "", common.ErrUnauthorized
 	}
 
 	userId := user.ID.String()
