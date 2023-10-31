@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/auth"
@@ -27,6 +28,7 @@ func NewApp(authService auth.AuthService, userService user.UserService, port int
 		port:        port,
 	}
 
+	s.fiber.Use(cors.New())
 	s.fiber.Use(logger.New())
 	s.fiber.Use(limiter.New(limiter.Config{
 		Next: func(c *fiber.Ctx) bool {

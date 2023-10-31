@@ -46,3 +46,14 @@ func (ur *UserRepo) Get(ctx context.Context, id string) (*user.User, error) {
 
 	return nil, ErrUnknown
 }
+
+func (ur *UserRepo) GetByEmail(ctx context.Context, email string) (*user.User, error) {
+	user := new(user.User)
+	row := ur.db.QueryRowContext(ctx, "SELECT id, email, password FROM user WHERE email=?", email)
+	err := row.Scan(&user.ID, &user.Email, &user.Password)
+	if err == nil {
+		return user, nil
+	}
+
+	return nil, ErrUnknown
+}

@@ -36,12 +36,17 @@ func (s *Service) CreateUser(ctx context.Context, req CreateUserRequest) (*Creat
 		return nil, fmt.Errorf("%w - %w", common.ErrBadRequest, errs)
 	}
 
-	user := user.NewUser(email, password)
-
-	err = s.ur.Add(ctx, user)
+	pssw, err := s.as.GeneratePassword(ctx, string(password))
 	if err != nil {
 		return nil, fmt.Errorf("%w - %w", common.ErrInternal, err)
 	}
 
-	return &CreateUserResponse{ID: user.ID.String()}, nil
+	u := user.NewUser(email, user.Password(pssw))
+
+	err = s.ur.Add(ctx, u)
+	if err != nil {
+		return nil, fmt.Errorf("%w - %w", common.ErrInternal, err)
+	}
+
+	return &CreateUserResponse{ID: u.ID.String()}, nil
 }

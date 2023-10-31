@@ -9,4 +9,5 @@ import (
 type UserRepo interface {
 	Add(ctx context.Context, u user.User) error
 	Get(ctx context.Context, id string) (*user.User, error)
+	GetByEmail(ctx context.Context, email string) (*user.User, error)
 }
