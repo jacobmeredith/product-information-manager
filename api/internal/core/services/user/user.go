@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 
+	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/auth"
 	"github.com/jacobmeredith/product-information-manager/api/internal/ports"
 )
 
@@ -12,11 +13,13 @@ type UserService interface {
 }
 
 type Service struct {
+	as auth.AuthService
 	ur ports.UserRepo
 }
 
-func NewService(ur ports.UserRepo) *Service {
+func NewService(as auth.AuthService, ur ports.UserRepo) *Service {
 	return &Service{
+		as: as,
 		ur: ur,
 	}
 }

@@ -2,15 +2,18 @@ package user
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/auth"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/user"
 )
 
 type UserController struct {
+	authService auth.AuthService
 	userService user.UserService
 }
 
-func NewUserController(r fiber.Router, userService user.UserService) *UserController {
+func NewUserController(r fiber.Router, authService auth.AuthService, userService user.UserService) *UserController {
 	uc := &UserController{
+		authService: authService,
 		userService: userService,
 	}
 

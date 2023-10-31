@@ -8,18 +8,21 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/auth"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/user"
 )
 
 type App struct {
 	fiber       *fiber.App
+	authService auth.AuthService
 	userService user.UserService
 	port        int
 }
 
-func NewApp(userService user.UserService, port int) *App {
+func NewApp(authService auth.AuthService, userService user.UserService, port int) *App {
 	s := &App{
 		fiber:       fiber.New(),
+		authService: authService,
 		userService: userService,
 		port:        port,
 	}
