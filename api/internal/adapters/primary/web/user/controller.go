@@ -1,6 +1,8 @@
 package user
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/auth"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/user"
@@ -11,16 +13,11 @@ type UserController struct {
 	userService user.UserService
 }
 
-func NewUserController(r fiber.Router, authService auth.AuthService, userService user.UserService) *UserController {
-	uc := &UserController{
+func NewUserController(authService auth.AuthService, userService user.UserService) *UserController {
+	return &UserController{
 		authService: authService,
 		userService: userService,
 	}
-
-	r.Post("", uc.CreateUser)
-	r.Get("/:id", uc.GetUser)
-
-	return uc
 }
 
 func (c *UserController) CreateUser(ctx *fiber.Ctx) error {
@@ -32,6 +29,8 @@ func (c *UserController) CreateUser(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(&input); err != nil {
 		return err
 	}
+
+	fmt.Println(string(ctx.Request().Header.Peek("authorization")))
 
 	userResponse, err := c.userService.CreateUser(ctx.Context(), user.CreateUserRequest(input))
 	if err != nil {

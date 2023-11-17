@@ -9,14 +9,10 @@ type AuthController struct {
 	authService auth.AuthService
 }
 
-func NewAuthController(r fiber.Router, authService auth.AuthService) *AuthController {
-	ac := &AuthController{
+func NewAuthController(authService auth.AuthService) *AuthController {
+	return &AuthController{
 		authService: authService,
 	}
-
-	r.Post("/login", ac.Login)
-
-	return ac
 }
 
 func (c *AuthController) Login(ctx *fiber.Ctx) error {

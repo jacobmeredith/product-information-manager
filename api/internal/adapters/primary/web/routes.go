@@ -6,6 +6,14 @@ import (
 )
 
 func (a *App) bindRoutes() {
-	user.NewUserController(a.fiber.Group("/user"), a.authService, a.userService)
-	auth.NewAuthController(a.fiber.Group("/auth"), a.authService)
+	userGroup := a.fiber.Group("/user")
+	authGroup := a.fiber.Group("/auth")
+
+	userController := user.NewUserController(a.authService, a.userService)
+	authController := auth.NewAuthController(a.authService)
+
+	userGroup.Get("/:id", auth.AuthMiddleware(a.authService), userController.GetUser)
+	userGroup.Post("", userController.CreateUser)
+
+	authGroup.Post("/login", authController.Login)
 }

@@ -13,7 +13,7 @@ import (
 )
 
 type CustomClaims struct {
-	userId string
+	user.User
 	jwt.RegisteredClaims
 }
 
@@ -52,10 +52,8 @@ func (s *Service) Login(ctx context.Context, req LoginRequest) (string, error) {
 		return "", common.ErrUnauthorized
 	}
 
-	userId := user.ID.String()
-
 	claims := CustomClaims{
-		userId,
+		*user,
 		jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),

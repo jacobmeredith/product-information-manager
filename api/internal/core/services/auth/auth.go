@@ -11,6 +11,7 @@ type AuthService interface {
 	Login(ctx context.Context, req LoginRequest) (string, error)
 	GeneratePassword(ctx context.Context, psswd string) (string, error)
 	VerifyPassword(ctx context.Context, req VerifyPasswordRequest) (*user.User, error)
+	VerifyToken(ctx context.Context, token string) (*user.User, error)
 }
 
 type Service struct {
