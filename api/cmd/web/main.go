@@ -6,6 +6,7 @@ import (
 
 	"github.com/jacobmeredith/product-information-manager/api/internal/adapters/primary/web"
 	"github.com/jacobmeredith/product-information-manager/api/internal/adapters/secondary/libsql"
+	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/account"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/auth"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/user"
 	"github.com/joho/godotenv"
@@ -25,6 +26,7 @@ func main() {
 	ur := libsql.NewUserRepo(db)
 	as := auth.NewService(ur)
 	us := user.NewService(as, ur)
+	accS := account.NewService()
 
-	web.NewApp(as, us, 8080).Run()
+	web.NewApp(as, us, accS, 8080).Run()
 }

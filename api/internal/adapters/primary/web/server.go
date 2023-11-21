@@ -9,23 +9,26 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/account"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/auth"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/user"
 )
 
 type App struct {
-	fiber       *fiber.App
-	authService auth.AuthService
-	userService user.UserService
-	port        int
+	fiber          *fiber.App
+	authService    auth.AuthService
+	userService    user.UserService
+	accountService account.AccountService
+	port           int
 }
 
-func NewApp(authService auth.AuthService, userService user.UserService, port int) *App {
+func NewApp(authService auth.AuthService, userService user.UserService, accountService account.AccountService, port int) *App {
 	s := &App{
-		fiber:       fiber.New(),
-		authService: authService,
-		userService: userService,
-		port:        port,
+		fiber:          fiber.New(),
+		authService:    authService,
+		userService:    userService,
+		accountService: accountService,
+		port:           port,
 	}
 
 	s.fiber.Use(cors.New())

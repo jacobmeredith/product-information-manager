@@ -1,8 +1,6 @@
 package user
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/auth"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/user"
@@ -29,8 +27,6 @@ func (c *UserController) CreateUser(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(&input); err != nil {
 		return err
 	}
-
-	fmt.Println(string(ctx.Request().Header.Peek("authorization")))
 
 	userResponse, err := c.userService.CreateUser(ctx.Context(), user.CreateUserRequest(input))
 	if err != nil {
