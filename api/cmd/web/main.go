@@ -24,9 +24,11 @@ func main() {
 	}
 
 	ur := libsql.NewUserRepo(db)
+	ar := libsql.NewAccountRepo(db)
+
 	as := auth.NewService(ur)
 	us := user.NewService(as, ur)
-	accS := account.NewService()
+	accS := account.NewService(ar)
 
 	web.NewApp(as, us, accS, 8080).Run()
 }

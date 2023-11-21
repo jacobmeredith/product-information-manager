@@ -30,8 +30,12 @@ func (s *Service) CreateAccount(ctx context.Context, req CreateAccountRequest) (
 		return nil, fmt.Errorf("%w - %w", common.ErrBadRequest, errs)
 	}
 
-	u := account.NewAccount(name)
-	// Repository add to database
+	a := account.NewAccount(name)
 
-	return &CreateAccountResponse{ID: u.ID.String()}, nil
+	err = s.ar.Add(ctx, a)
+	if err != nil {
+		return nil, fmt.Errorf("%w - %w", common.ErrInternal, err)
+	}
+
+	return &CreateAccountResponse{ID: a.ID.String()}, nil
 }
