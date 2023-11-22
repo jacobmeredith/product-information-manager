@@ -10,7 +10,8 @@ import (
 )
 
 type CreateAccountRequest struct {
-	Name string
+	Name   string
+	UserId string
 }
 
 type CreateAccountResponse struct {
@@ -33,6 +34,11 @@ func (s *Service) CreateAccount(ctx context.Context, req CreateAccountRequest) (
 	a := account.NewAccount(name)
 
 	err = s.ar.Add(ctx, a)
+	if err != nil {
+		return nil, fmt.Errorf("%w - %w", common.ErrInternal, err)
+	}
+
+	err = s.ar.AddUserToAccount(ctx, "admin", req.UserId, a.ID.String())
 	if err != nil {
 		return nil, fmt.Errorf("%w - %w", common.ErrInternal, err)
 	}

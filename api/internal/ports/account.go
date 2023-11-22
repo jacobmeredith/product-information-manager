@@ -8,4 +8,5 @@ import (
 
 type AccountRepo interface {
 	Add(ctx context.Context, a account.Account) error
+	AddUserToAccount(ctx context.Context, role string, userId string, accountId string) error
 }

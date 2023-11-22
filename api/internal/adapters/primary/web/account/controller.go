@@ -1,7 +1,11 @@
 package account
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
+	"github.com/jacobmeredith/product-information-manager/api/internal/common"
+	dUser "github.com/jacobmeredith/product-information-manager/api/internal/core/domain/user"
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/services/account"
 )
 
@@ -17,12 +21,22 @@ func NewAccountController(as account.AccountService) *AccountController {
 
 func (c *AccountController) Create(ctx *fiber.Ctx) error {
 	var input struct {
-		Name string `json:"name"`
+		Name   string `json:"name"`
+		UserId string `json:"user_id"`
 	}
 
 	if err := ctx.BodyParser(&input); err != nil {
 		return err
 	}
+
+	user := ctx.Locals("user")
+	details, ok := user.(dUser.User)
+	fmt.Println(details)
+	if !ok {
+		return common.ErrBadRequest
+	}
+
+	input.UserId = details.ID.String()
 
 	accountresponse, err := c.accountService.CreateAccount(ctx.Context(), account.CreateAccountRequest(input))
 	if err != nil {

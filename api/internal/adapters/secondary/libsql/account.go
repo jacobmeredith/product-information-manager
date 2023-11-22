@@ -3,6 +3,7 @@ package libsql
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"strings"
 
 	"github.com/jacobmeredith/product-information-manager/api/internal/core/domain/account"
@@ -26,6 +27,22 @@ func (ur *AccountRepo) Add(ctx context.Context, u account.Account) error {
 	if strings.Contains(err.Error(), "UNIQUE constraint failed") {
 		return ErrAlreadyExists
 	}
+
+	return ErrUnknown
+}
+
+func (ur *AccountRepo) AddUserToAccount(ctx context.Context, role string, userId string, accountId string) error {
+	_, err := ur.db.ExecContext(ctx, "INSERT INTO account_user (role, account_id, user_id) VALUES (?, ?, ?)", role, accountId, userId)
+
+	if err == nil {
+		return nil
+	}
+
+	if strings.Contains(err.Error(), "UNIQUE constraint failed") {
+		return ErrAlreadyExists
+	}
+
+	fmt.Println(err)
 
 	return ErrUnknown
 }

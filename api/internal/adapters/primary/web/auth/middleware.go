@@ -24,7 +24,7 @@ func AuthMiddleware(as auth.AuthService) func(c *fiber.Ctx) error {
 			})
 		}
 
-		c.Locals("user", user)
+		c.Locals("user", *user)
 
 		return c.Next()
 	}
