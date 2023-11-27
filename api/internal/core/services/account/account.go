@@ -8,6 +8,7 @@ import (
 
 type AccountService interface {
 	CreateAccount(ctx context.Context, req CreateAccountRequest) (*CreateAccountResponse, error)
+	GetAccount(ctx context.Context, id string) (*GetAccountResponse, error)
 }
 
 type Service struct {

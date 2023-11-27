@@ -20,5 +20,6 @@ func (a *App) bindRoutes() {
 
 	authGroup.Post("/login", authController.Login)
 
-	accountGroup.Post("", auth.AuthMiddleware(a.authService), accountController.Create)
+	accountGroup.Get("/:id", accountController.GetAccount)
+	accountGroup.Post("", auth.AuthMiddleware(a.authService), accountController.CreateAccount)
 }

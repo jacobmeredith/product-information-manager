@@ -46,3 +46,14 @@ func (ur *AccountRepo) AddUserToAccount(ctx context.Context, role string, userId
 
 	return ErrUnknown
 }
+
+func (ur *AccountRepo) Get(ctx context.Context, id string) (*account.Account, error) {
+	account := new(account.Account)
+	row := ur.db.QueryRowContext(ctx, "SELECT id, name FROM account WHERE id=?", id)
+	err := row.Scan(&account.ID, &account.Name)
+	if err == nil {
+		return account, nil
+	}
+
+	return nil, ErrUnknown
+}

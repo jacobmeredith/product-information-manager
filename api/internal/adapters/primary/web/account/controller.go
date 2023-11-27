@@ -19,7 +19,7 @@ func NewAccountController(as account.AccountService) *AccountController {
 	}
 }
 
-func (c *AccountController) Create(ctx *fiber.Ctx) error {
+func (c *AccountController) CreateAccount(ctx *fiber.Ctx) error {
 	var input struct {
 		Name   string `json:"name"`
 		UserId string `json:"user_id"`
@@ -44,4 +44,13 @@ func (c *AccountController) Create(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.JSON(accountresponse)
+}
+
+func (c *AccountController) GetAccount(ctx *fiber.Ctx) error {
+	account, err := c.accountService.GetAccount(ctx.Context(), ctx.Params("id"))
+	if err != nil {
+		return err
+	}
+
+	return ctx.JSON(account)
 }
