@@ -9,6 +9,7 @@ import (
 type AccountService interface {
 	CreateAccount(ctx context.Context, req CreateAccountRequest) (*CreateAccountResponse, error)
 	InviteUserToAccount(ctx context.Context, req InviteUserToAccountRequest) error
+	InviteUserAccept(ctx context.Context, req InviteUserAcceptRequest) error
 	GetAccount(ctx context.Context, id string) (*GetAccountResponse, error)
 }
 

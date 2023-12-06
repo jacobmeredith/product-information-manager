@@ -43,3 +43,27 @@ func (s *Service) InviteUserToAccount(ctx context.Context, req InviteUserToAccou
 
 	return nil
 }
+
+type InviteUserAcceptRequest struct {
+	InviteId string
+	UserId   string
+}
+
+func (s *Service) InviteUserAccept(ctx context.Context, req InviteUserAcceptRequest) error {
+	_, err := s.ar.GetUserInvite(ctx, req.InviteId)
+	if err != nil {
+		return fmt.Errorf("%w - %w", common.ErrNotFound, err)
+	}
+
+	err = s.ar.AddUserToAccount(ctx, "user", req.UserId, req.InviteId)
+	if err != nil {
+		return fmt.Errorf("%w - %w", common.ErrInternal, err)
+	}
+
+	err = s.ar.InvalidateUserInvite(ctx, req.InviteId)
+	if err != nil {
+		return fmt.Errorf("%w - %w", common.ErrInternal, err)
+	}
+
+	return nil
+}
